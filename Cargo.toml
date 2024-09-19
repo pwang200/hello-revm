@@ -1,0 +1,10 @@
+[package]
+name = "hello-revm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.88"
+revm = "14.0.2"
+alloy-sol-types = "0.8.3"
+alloy-sol-macro = "0.8.3"
