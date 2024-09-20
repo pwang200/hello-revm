@@ -8,3 +8,5 @@ anyhow = "1.0.88"
 revm = "14.0.2"
 alloy-sol-types = "0.8.3"
 alloy-sol-macro = "0.8.3"
+alloy = { version = "0.3.6", features = ["rpc", "rpc-types"] }
+bytes = "1.7.1"
