@@ -1,21 +1,12 @@
-// use revm::{DatabaseCommit, DatabaseRef, EmptyDB};
-// use revm_primitives::db::DatabaseCommit;
-// use revm::DatabaseCommit;
 use revm::primitives::{
     Account, AccountInfo, Address, Bytecode, Log, B256, KECCAK_EMPTY,
     U256,
 };
-// use crate::Database;
-// use core::convert::Infallible;
-// use std::vec::Vec;
 use serde::{Deserialize, Serialize};
 use postcard::{from_bytes, to_allocvec};
-// use alloc::vec::Vec;
 use std::collections::{HashMap, hash_map::Entry};
-// use std::fmt;
 use revm::{Database, DatabaseCommit, DatabaseRef};
 use revm_primitives::{Bytes, keccak256};
-
 
 type VecU8 = Vec<u8>;
 
@@ -53,11 +44,6 @@ impl BytesDB {
         self.contracts
             .entry(account.code_hash)
             .or_insert_with(|| account.code.clone().unwrap().bytes_slice().to_vec());
-        // if self.contracts.contains_key(&account.code_hash){
-        //     return false;
-        // }
-        // let code = account.code.clone().unwrap().bytes_slice().to_vec();
-        // return true;
     }
 
     //Consider use the same serialization for code and info
@@ -73,7 +59,7 @@ impl BytesDB {
             let info: AccountInfo = from_bytes(data).unwrap();
             return Ok(Some(info));
         }
-        Ok(None)//Err(DBError::NotExist)
+        Ok(None)
     }
 
     pub fn insert_account_storage(&mut self, address: Address, slot: U256, value: U256) -> Result<(), DBError> {
@@ -89,16 +75,16 @@ impl BytesDB {
     pub fn code_by_hash(&self, code_hash: B256) -> Result<Bytecode, DBError> {
         match self.contracts.get(&code_hash) {
             Some(entry) => Ok(Bytecode::new_raw(Bytes::from(entry.clone()))),
-            None => Ok(Bytecode::default()),//Err(DBError::NotExist),
+            None => Ok(Bytecode::default()),
         }
     }
 
     pub fn storage(&self, address: Address, index: U256) -> Result<U256, DBError> {
         match self.account_storage.get(&address) {
-            None => { return Ok(U256::default()); }//Err(DBError::NotExist)}
+            None => { return Ok(U256::default()); }
             Some(storage) => {
                 match storage.get(&index) {
-                    None => { return Ok(U256::default()); }//Err(DBError::NotExist)}
+                    None => { return Ok(U256::default()); }
                     Some(value) => {
                         return Ok(value.clone());
                     }
@@ -117,7 +103,7 @@ impl BytesDB {
     fn block_hash(&self, number: u64) -> Result<B256, DBError> {
         match self.block_hashes.get(&U256::from(number)) {
             Some(entry) => Ok(*entry),
-            None => Ok(keccak256(number.to_string().as_bytes()))//Err(DBError::NotExist),
+            None => Ok(keccak256(number.to_string().as_bytes())),
         }
     }
 }
