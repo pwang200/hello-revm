@@ -1,18 +1,10 @@
-// use revm::{DatabaseCommit, DatabaseRef, EmptyDB};
-// use revm_primitives::db::DatabaseCommit;
-// use revm::DatabaseCommit;
 use revm::primitives::{
     Account, AccountInfo, Address, Bytecode, Log, B256, KECCAK_EMPTY,
     U256,
 };
-// use crate::Database;
-// use core::convert::Infallible;
-// use std::vec::Vec;
 use serde::{Deserialize, Serialize};
 use postcard::{from_bytes, to_allocvec};
-// use alloc::vec::Vec;
 use std::collections::{HashMap, hash_map::Entry};
-// use std::fmt;
 use revm::{Database, DatabaseCommit, DatabaseRef};
 use revm_primitives::{Bytes, keccak256};
 
@@ -53,11 +45,6 @@ impl BytesDB {
         self.contracts
             .entry(account.code_hash)
             .or_insert_with(|| account.code.clone().unwrap().bytes_slice().to_vec());
-        // if self.contracts.contains_key(&account.code_hash){
-        //     return false;
-        // }
-        // let code = account.code.clone().unwrap().bytes_slice().to_vec();
-        // return true;
     }
 
     //Consider use the same serialization for code and info
